@@ -46,9 +46,9 @@ ADD ./verilog-settings.mk verilog/settings.mk
 RUN cd ./utils && make
 RUN cd ./src/utils && make
 
-RUN cd ./snes/spc7110_test && make all
+#RUN cd ./snes/spc7110_test && make all
 
-#RUN make all
+RUN make all
 
 # # build the fpga_base.bi3 file:
 # RUN cd ./verilog/sd2snes_base && make mk3
