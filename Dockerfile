@@ -2,9 +2,9 @@
 FROM stronglytyped/arm-none-eabi-gcc:latest AS install
 
 WORKDIR /work/quartus
-RUN wget https://download.altera.com/akdlm/software/acdsinst/20.1std.1/720/ib_tar/Quartus-lite-20.1.1.720-linux.tar
-RUN tar xf Quartus-lite-20.1.1.720-linux.tar && \
-	./setup.sh --mode unattended --accept_eula 1 --installdir /opt/intelFPGA_lite/20.1 --disable-components quartus_help,modelsim_ase,modelsim_ae,cyclone10lp,cyclonev,max,max10,arria_lite && \
+RUN wget https://downloads.intel.com/akdlm/software/acdsinst/25.1std/1129/ib_tar/Quartus-lite-25.1std.0.1129-linux.tar
+RUN tar xf Quartus-lite-25.1std.0.1129-linux.tar && \
+	./setup.sh --mode unattended --accept_eula 1 --installdir /opt/intelFPGA_lite/25.1 --disable-components quartus_help,cyclone10lp,cyclonev,max,max10,arria_lite,questa_fse,questa_fe && \
 	rm -fr *
 
 ######################################################
@@ -27,11 +27,11 @@ RUN cd ./snescom-1.8.1.1 && make all
 RUN cp ./snescom-1.8.1.1/snescom /usr/local/bin/
 RUN cp ./snescom-1.8.1.1/sneslink /usr/local/bin/
 
-# LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libtcmalloc_minimal.so.4 LD_LIBRARY_PATH=/opt/intelFPGA_lite/20.1/quartus/linux64
-RUN mv /opt/intelFPGA_lite/20.1/quartus/linux64/libboost_system.so /opt/intelFPGA_lite/20.1/quartus/linux64/libboost_system.so.disabled ; \
-	mv /opt/intelFPGA_lite/20.1/quartus/linux64/libccl_curl_drl.so /opt/intelFPGA_lite/20.1/quartus/linux64/libccl_curl_drl.so.disabled ; \
-	mv /opt/intelFPGA_lite/20.1/quartus/linux64/libstdc++.so.6 /opt/intelFPGA_lite/20.1/quartus/linux64/libstdc++.so.6.disabled ; \
-	mv /opt/intelFPGA_lite/20.1/quartus/linux64/libstdc++.so /opt/intelFPGA_lite/20.1/quartus/linux64/libstdc++.so.disabled
+# LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libtcmalloc_minimal.so.4 LD_LIBRARY_PATH=/opt/intelFPGA_lite/25.1/quartus/linux64
+#RUN mv /opt/intelFPGA_lite/25.1/quartus/linux64/libboost_system.so /opt/intelFPGA_lite/25.1/quartus/linux64/libboost_system.so.disabled ; \
+#	mv /opt/intelFPGA_lite/25.1/quartus/linux64/libccl_curl_drl.so /opt/intelFPGA_lite/25.1/quartus/linux64/libccl_curl_drl.so.disabled ; \
+#	mv /opt/intelFPGA_lite/25.1/quartus/linux64/libstdc++.so.6 /opt/intelFPGA_lite/25.1/quartus/linux64/libstdc++.so.6.disabled ; \
+#	mv /opt/intelFPGA_lite/25.1/quartus/linux64/libstdc++.so /opt/intelFPGA_lite/25.1/quartus/linux64/libstdc++.so.disabled
 
 # clone develop from sd2snes firmware repo:
 #RUN git clone --depth 1 https://github.com/mrehkopf/sd2snes.git
@@ -39,7 +39,7 @@ ADD ./sd2snes /work/sd2snes
 
 WORKDIR /work/sd2snes
 
-# override verilog/settings.mk with linux-specific Quartus 20.1 paths and env var overrides:
+# override verilog/settings.mk with linux-specific Quartus 25.1 paths and env var overrides:
 ADD ./verilog-settings.mk verilog/settings.mk
 
 # these are required build steps for utilities:
